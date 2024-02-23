@@ -4,7 +4,7 @@
     <div class="course-title"
         [ngStyle]="cardStyles()"
         *ngIf="course.description; else noDescription"
-    >{{index}} {{course.description}}</div>
+    >{{index || ''}} {{course.description}}</div>
     <ng-template #noDescription>
         <p>no Description</p>
     </ng-template>
@@ -34,7 +34,6 @@
         <div class="category" *ngSwitchCase="'ADVANCED'">ADVANCED</div>        
         <div class="category" *ngSwitchDefault>All levels</div>        
     </div> -->
-
 
     @if(course.iconUrl){
         <img width="300" alt="Angular Logo" src={{course.iconUrl}}>

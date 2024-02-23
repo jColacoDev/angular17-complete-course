@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import {COURSES} from '../db-data';
 import { Course } from './model/course';
+import { CourseCardComponent } from './course-card/course-card.component';
 
 @Component({
   selector: 'app-root',
@@ -15,8 +16,15 @@ export class AppComponent {
   price = 9.999545845;
   rate = 0.67;
 
+  @ViewChild(CourseCardComponent) card: CourseCardComponent;
+  @ViewChild('demoRef') demo: ElementRef;
+  @ViewChild('lastCourse', {read: ElementRef}) lastCourse: ElementRef;
+
   onCourseSelected(course: Course){
     console.log("App component click", course);
+    console.log(this.card);
+    console.log(this.demo);
+    console.log(this.lastCourse);
   }
 
   trackCourse(index: number, course: Course){

@@ -5,7 +5,7 @@
 
 </div>
 
-<div class="demo">
+<div class="demo" #demoRef>
   <div>Start date: {{startDate | date:'dd/MMM/yyyy'}}</div>
   <div>{{title | uppercase}}</div>
   <div>{{price | number: '3.3-4'}}</div>
@@ -22,7 +22,7 @@
     <div *ngFor="let pair of course | keyvalue">
       {{pair.key + ': ' + pair.value}}
     </div>
-    <course-card 
+    <course-card
       [course]="course"
       (courseSelected)="onCourseSelected($event)" 
       [index]="$index"
@@ -30,7 +30,19 @@
       [class.is-last]="last"
       [class.is-even]="$even"
       [class.is-odd]="odd"
+      *ngIf="!last"
     />
+    <course-card #lastCourse
+      [course]="course"
+      (courseSelected)="onCourseSelected($event)" 
+      [index]="$index"
+      [class.is-first]="$first"
+      [class.is-last]="last"
+      [class.is-even]="$even"
+      [class.is-odd]="odd"
+      *ngIf="last"
+    />
+
   }
   @empty{<h1>No courses found</h1>}
 </div>
