@@ -25,6 +25,21 @@
       {{pair.key + ': ' + pair.value}}
     </div>
 
+    <course-card highlighted #highlighter="hl"
+      (toggleHighlight)="onToggle($event)"
+      (dblclick)="highlighter.toggle()"
+
+      [warnTpl]="testWarn"
+      [course]="course"
+      (courseSelected)="onCourseSelected($event)" 
+      [index]="$index"
+      [class.is-first]="$first"
+      [class.is-last]="last"
+      [class.is-even]="$even"
+      [class.is-odd]="odd"
+      *ngIf="$first"
+    />
+
     <course-card
       [warnTpl]="testWarn"
       [course]="course"
@@ -34,7 +49,7 @@
       [class.is-last]="last"
       [class.is-even]="$even"
       [class.is-odd]="odd"
-      *ngIf="!last"
+      *ngxUnless="last || $first"
     />
 
     <ng-template #testWarn let-courseName="description">

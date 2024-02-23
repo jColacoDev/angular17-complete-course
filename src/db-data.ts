@@ -2,7 +2,6 @@ import { Course } from "./app/model/course";
 
 
 export const COURSES: Course[] = [
-    undefined,
     {
         id: 1,
         description: "",
