@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import {COURSES} from '../db-data';
 import { Course } from './model/course';
 import { CourseCardComponent } from './course-card/course-card.component';
@@ -8,7 +8,7 @@ import { CourseCardComponent } from './course-card/course-card.component';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
   // readonly COURSES: typeof COURSES = COURSES;
   courses = [...COURSES];
   startDate = new Date(2000, 0, 1);
@@ -19,6 +19,19 @@ export class AppComponent {
   @ViewChild(CourseCardComponent) card: CourseCardComponent;
   @ViewChild('demoRef') demo: ElementRef;
   @ViewChild('lastCourse', {read: ElementRef}) lastCourse: ElementRef;
+  // @ViewChildren(CourseCardComponent) cards: QueryList<CourseCardComponent>;
+  @ViewChildren(CourseCardComponent, {read: ElementRef})
+  cards: QueryList<ElementRef>;
+
+  constructor(){
+    console.log(this.lastCourse);
+  }
+  
+  ngAfterViewInit(){
+    console.log(this.lastCourse);
+    console.log(this.cards.last);
+    this.cards.changes.subscribe(cards=> console.log(cards));
+  }
 
   onCourseSelected(course: Course){
     console.log("App component click", course);
@@ -29,5 +42,11 @@ export class AppComponent {
 
   trackCourse(index: number, course: Course){
     return course.id;
+  }
+
+  onCoursesEdited(){
+    this.courses.unshift(COURSES[5]);
+    // console.log(this.courses);
+    console.log(this.cards);
   }
 }

@@ -9,6 +9,8 @@
         <p>no Description</p>
     </ng-template>
 
+    <ng-content select=".course-selection1"></ng-content>    
+
     <div class="course-category">
         @switch (course.category) {
             @case ("BEGINNER") {
@@ -26,6 +28,8 @@
         }
     </div>
     
+    <ng-content select="[courseSelection2]"></ng-content>
+
     <!-- <div class="course-category" [ngSwitch]="course.category">
         <ng-container *ngSwitchCase="'BEGINNER'">
             <div class="category">Beginner</div>        

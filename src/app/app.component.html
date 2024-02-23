@@ -5,6 +5,8 @@
 
 </div>
 
+<button (click)="onCoursesEdited()">Edit Courses</button>
+
 <div class="demo" #demoRef>
   <div>Start date: {{startDate | date:'dd/MMM/yyyy'}}</div>
   <div>{{title | uppercase}}</div>
@@ -14,7 +16,7 @@
 </div>
 
 <div class="courses">
-  @for(course of courses | slice:0:4; track trackCourse; 
+  @for(course of courses; track trackCourse; 
     let count = $count;
     let last = $last;
     let odd = $odd;
@@ -41,7 +43,12 @@
       [class.is-even]="$even"
       [class.is-odd]="odd"
       *ngIf="last"
-    />
+    >
+      <div class="course-selection1">course-selection1</div>
+      <h5>This is the last Course</h5>
+      <div #courseSelection2><span class="courseSpan">course-selection2</span></div>
+      <div #courseSelection2><span class="courseSpan">course-selection2</span></div>
+    </course-card>
 
   }
   @empty{<h1>No courses found</h1>}
