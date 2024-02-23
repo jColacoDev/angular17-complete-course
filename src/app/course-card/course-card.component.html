@@ -6,7 +6,11 @@
         *ngIf="course.description; else noDescription"
     >{{index || ''}} {{course.description}}</div>
     <ng-template #noDescription>
-        <p>no Description</p>
+        <p>Description</p>
+        <ng-container *ngTemplateOutlet="warnTpl; context: {description: 'Unknown'}">
+
+        </ng-container>
+        
     </ng-template>
 
     <ng-content select=".course-selection1"></ng-content>    

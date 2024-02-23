@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, ContentChild, ContentChildren, ElementRef, EventEmitter, Input, Output, QueryList } from '@angular/core';
+import { AfterContentInit, Component, ContentChild, ContentChildren, ElementRef, EventEmitter, Input, Output, QueryList, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Course } from '../model/course';
 
@@ -13,6 +13,7 @@ import { Course } from '../model/course';
 export class CourseCardComponent implements AfterContentInit{
   @Input({required:true}) course: Course;
   @Input({required:true}) index: number;
+  @Input()warnTpl: TemplateRef<any>;
   @Output() courseSelected = new EventEmitter<Course>();
 
   @ContentChild('courseSelection2', {read: ElementRef}) courseSelection2;

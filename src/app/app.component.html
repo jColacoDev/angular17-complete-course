@@ -24,7 +24,9 @@
     <div *ngFor="let pair of course | keyvalue">
       {{pair.key + ': ' + pair.value}}
     </div>
+
     <course-card
+      [warnTpl]="testWarn"
       [course]="course"
       (courseSelected)="onCourseSelected($event)" 
       [index]="$index"
@@ -34,6 +36,13 @@
       [class.is-odd]="odd"
       *ngIf="!last"
     />
+
+    <ng-template #testWarn let-courseName="description">
+      <p class="warn">{{courseName}} warn template</p>
+    </ng-template>
+    <ng-container  *ngTemplateOutlet="testWarn; context: {description: course?.description || 'undefined'}">
+    </ng-container>
+
     <course-card #lastCourse
       [course]="course"
       (courseSelected)="onCourseSelected($event)" 
