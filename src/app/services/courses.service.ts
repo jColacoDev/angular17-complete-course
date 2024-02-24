@@ -5,7 +5,10 @@ import { Course } from '../model/course';
 import { map } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
+  // useClass: CoursesService
+  // useFactory: (http)=> new CoursesService(http),
+  // deps: [HttpClient]
 })
 export class CoursesService {
   constructor(

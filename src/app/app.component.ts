@@ -1,15 +1,31 @@
-import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, InjectionToken, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import {COURSES} from '../db-data';
 import { Course } from './model/course';
 import { CourseCardComponent } from './course-card/course-card.component';
 import { HighlightedDirective } from './directives/highlighted.directive';
 import { CoursesService } from './services/courses.service';
 import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { APP_CONFIG, AppConfig, CONFIG_TOKEN } from 'src/config';
+
+function coursesServiceProvider(http: HttpClient) : CoursesService {
+  return new CoursesService(http);
+}
+export const COURSES_SERVICE = new InjectionToken<CoursesService>('COURSES_SERVICE');
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  // providers: [
+  //   {
+  //     // provide: CoursesService, // avoid the injection token
+  //     // useClass: CoursesService,  // avoid provider function
+  //     provide: CONFIG_TOKEN, 
+  //     // useFactory: ()=> APP_CONFIG,
+  //     useValue: APP_CONFIG
+  //   }
+  // ]
 })
 export class AppComponent implements AfterViewInit, OnInit {
   // readonly COURSES: typeof COURSES = COURSES;
@@ -38,7 +54,9 @@ export class AppComponent implements AfterViewInit, OnInit {
     highlighted: HighlightedDirective;
 
   constructor(
-    private coursesService: CoursesService
+    // @Inject(COURSES_SERVICE) private coursesService: CoursesService
+    private coursesService: CoursesService,
+    @Inject(CONFIG_TOKEN) private config: AppConfig
   ){
     // console.log(this.lastCourse);
   }

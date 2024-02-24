@@ -1,6 +1,8 @@
-import { AfterContentInit, Component, ContentChild, ContentChildren, ElementRef, EventEmitter, Input, Output, QueryList, TemplateRef } from '@angular/core';
+import { AfterContentInit, Component, ContentChild, ContentChildren, ElementRef, EventEmitter, Inject, Input, Output, QueryList, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Course } from '../model/course';
+import { CoursesService } from '../services/courses.service';
+import { COURSES_SERVICE } from '../app.component';
 
 
 @Component({
@@ -19,7 +21,9 @@ export class CourseCardComponent implements AfterContentInit{
   @ContentChild('courseSelection2', {read: ElementRef}) courseSelection2;
   @ContentChildren('courseSelection2', {read: ElementRef}) courseSelections2: QueryList<ElementRef>;
 
-
+  constructor(
+    private coursesService: CoursesService
+  ){ }
   ngAfterContentInit(): void {
     this.courseSelection2 && console.log(this.courseSelection2);
     this.courseSelections2.length > 0 && console.log(this.courseSelections2);
