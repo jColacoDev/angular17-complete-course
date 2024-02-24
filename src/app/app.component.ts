@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Inject, InjectionToken, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Attribute, ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, ElementRef, Inject, InjectionToken, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import {COURSES} from '../db-data';
 import { Course } from './model/course';
 import { CourseCardComponent } from './course-card/course-card.component';
@@ -17,6 +17,7 @@ export const COURSES_SERVICE = new InjectionToken<CoursesService>('COURSES_SERVI
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
+  // changeDetection: ChangeDetectionStrategy.OnPush,
   // providers: [
   //   {
   //     // provide: CoursesService, // avoid the injection token
@@ -27,7 +28,7 @@ export const COURSES_SERVICE = new InjectionToken<CoursesService>('COURSES_SERVI
   //   }
   // ]
 })
-export class AppComponent implements AfterViewInit, OnInit {
+export class AppComponent implements AfterViewInit, OnInit, DoCheck {
   // readonly COURSES: typeof COURSES = COURSES;
   // courses = [...COURSES];
   courses$ : Observable<Course[]>
@@ -36,6 +37,7 @@ export class AppComponent implements AfterViewInit, OnInit {
   title = "This is a Yellow World";
   price = 9.999545845;
   rate = 0.67;
+  loaded = true;
 
   @ViewChild(CourseCardComponent)
     card: CourseCardComponent;
@@ -56,12 +58,26 @@ export class AppComponent implements AfterViewInit, OnInit {
   constructor(
     // @Inject(COURSES_SERVICE) private coursesService: CoursesService
     private coursesService: CoursesService,
-    @Inject(CONFIG_TOKEN) private config: AppConfig
+    @Inject(CONFIG_TOKEN) private config: AppConfig,
+    @Attribute('type') private type: string, //one time binding input
+    private cd: ChangeDetectorRef
   ){
     // console.log(this.lastCourse);
   }
+  ngDoCheck(): void {
+    if(this.loaded){
+      this.cd.markForCheck();
+      this.loaded = false;
+    }
+  }
+
   ngOnInit(): void {
     this.courses$ = this.coursesService.loadCourses();
+    this.loaded = true;
+    // this.coursesService.loadCourses().subscribe(courses=>{
+    //   this.courses = courses;
+    //   this.cd.markForCheck(); 
+    // })
   }
 
   ngAfterViewInit(){

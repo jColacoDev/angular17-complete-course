@@ -45,4 +45,8 @@ export class CourseCardComponent implements AfterContentInit{
       'text-decoration': 'underline',
     }
   };
+
+  onTitleChanged(title: string){
+    this.course.description= title;
+  }
 }

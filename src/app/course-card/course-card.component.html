@@ -52,7 +52,11 @@
 
     <div class="course-description">
         <span>
-            Edit title: <input #courseTitle type="text" [value]="course.description">
+            Edit title: <input #courseTitle type="text" 
+                [value]="course.description"
+                (keyup)="onTitleChanged(courseTitle.value)"
+                
+                >
         </span>
         <span>
             {{course.longDescription}}
