@@ -14,7 +14,7 @@ export class CourseCardComponent implements AfterContentInit{
   @Input({required:true}) course: Course;
   @Input({required:true}) index: number;
   @Input()warnTpl: TemplateRef<any>;
-  @Output() courseSelected = new EventEmitter<Course>();
+  @Output('courseChanged') courseEmitter = new EventEmitter<Course>();
 
   @ContentChild('courseSelection2', {read: ElementRef}) courseSelection2;
   @ContentChildren('courseSelection2', {read: ElementRef}) courseSelections2: QueryList<ElementRef>;
@@ -25,9 +25,8 @@ export class CourseCardComponent implements AfterContentInit{
     this.courseSelections2.length > 0 && console.log(this.courseSelections2);
   }
 
-  onCourseViewed(){
-    console.log("card component - button clicked");
-    this.courseSelected.emit(this.course);
+  onSaveClicked(description: string){
+    this.courseEmitter.emit({...this.course, description});
   }
 
   cardClasses(){

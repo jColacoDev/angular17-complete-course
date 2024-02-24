@@ -15,7 +15,7 @@
   <div>{{rate | percent}}</div>
 </div>
 
-<div class="courses">
+<div class="courses" *ngIf="courses$ | async as courses">
   @for(course of courses; track trackCourse; 
     let count = $count;
     let last = $last;
@@ -28,6 +28,7 @@
     <course-card highlighted #highlighter="hl"
       (toggleHighlight)="onToggle($event)"
       (dblclick)="highlighter.toggle()"
+      (courseChanged)="save($event)"
 
       [warnTpl]="testWarn"
       [course]="course"

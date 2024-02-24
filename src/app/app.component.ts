@@ -1,19 +1,23 @@
-import { AfterViewInit, Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import {COURSES} from '../db-data';
 import { Course } from './model/course';
 import { CourseCardComponent } from './course-card/course-card.component';
 import { HighlightedDirective } from './directives/highlighted.directive';
+import { CoursesService } from './services/courses.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements AfterViewInit, OnInit {
   // readonly COURSES: typeof COURSES = COURSES;
-  courses = [...COURSES];
+  // courses = [...COURSES];
+  courses$ : Observable<Course[]>
+  courses;
   startDate = new Date(2000, 0, 1);
-  title = this.courses[1].description;
+  title = "This is a Yellow World";
   price = 9.999545845;
   rate = 0.67;
 
@@ -33,10 +37,15 @@ export class AppComponent implements AfterViewInit {
   @ViewChild(HighlightedDirective)
     highlighted: HighlightedDirective;
 
-  constructor(){
+  constructor(
+    private coursesService: CoursesService
+  ){
     // console.log(this.lastCourse);
   }
-  
+  ngOnInit(): void {
+    this.courses$ = this.coursesService.loadCourses();
+  }
+
   ngAfterViewInit(){
     // console.log(this.lastCourse);
     // console.log(this.cards.last);
@@ -65,5 +74,12 @@ export class AppComponent implements AfterViewInit {
 
   onToggle(isHighLighted: boolean){
     console.log(isHighLighted);
+  }
+
+  save(course: Course){
+    this.coursesService.saveCourse(course)
+      .subscribe(
+        () => console.log("Saved success")
+      );
   }
 }

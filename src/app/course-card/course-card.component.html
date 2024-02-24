@@ -51,8 +51,13 @@
     }
 
     <div class="course-description">
-        {{course.longDescription}}
+        <span>
+            Edit title: <input #courseTitle type="text" [value]="course.description">
+        </span>
+        <span>
+            {{course.longDescription}}
+        </span>
     </div>
 
-    <button (click)="onCourseViewed()">View Course</button>
+    <button (click)="onSaveClicked(courseTitle.value)">Save Course</button>
 </div>
