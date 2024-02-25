@@ -1,9 +1,9 @@
 import { AfterViewInit, Attribute, ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, ElementRef, Inject, InjectionToken, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import {COURSES} from '../db-data';
 import { Course } from './model/course';
-import { CourseCardComponent } from './course-card/course-card.component';
+import { CourseCardComponent } from './courses/course-card/course-card.component';
 import { HighlightedDirective } from './directives/highlighted.directive';
-import { CoursesService } from './services/courses.service';
+import { CoursesService } from './courses/courses.service';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig, CONFIG_TOKEN } from 'src/config';
@@ -64,7 +64,7 @@ export class AppComponent implements AfterViewInit, OnInit, DoCheck {
   ){
     // console.log(this.lastCourse);
   }
-  ngDoCheck(): void {
+  ngDoCheck(): void { 
     if(this.loaded){
       this.cd.markForCheck();
       this.loaded = false;

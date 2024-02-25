@@ -1,14 +1,12 @@
 import { AfterContentInit, Component, ContentChild, ContentChildren, ElementRef, EventEmitter, Inject, Input, Output, QueryList, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Course } from '../model/course';
-import { CoursesService } from '../services/courses.service';
-import { COURSES_SERVICE } from '../app.component';
+import { Course } from '../../model/course';
+import { CoursesService } from '../courses.service';
+import { COURSES_SERVICE } from '../../app.component';
 
 
 @Component({
   selector: 'course-card',
-  standalone: true,
-  imports: [CommonModule],
   templateUrl: './course-card.component.html',
   styleUrl: './course-card.component.css'
 })

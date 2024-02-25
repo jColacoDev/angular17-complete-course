@@ -1,20 +1,25 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Course } from '../model/course';
 import { map } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root',
+@Injectable(
+  // {
+  // providedIn: 'root',
   // useClass: CoursesService
   // useFactory: (http)=> new CoursesService(http),
   // deps: [HttpClient]
-})
-export class CoursesService {
+// }
+)
+export class CoursesService implements OnInit {
   constructor(
     private http: HttpClient
   ) { }
 
+  ngOnInit(): void {
+    console.log("CoursesService created ...")
+  }
   loadCourses(): Observable<Course[]> {
     const params = new HttpParams()
     .set("page", "1")
