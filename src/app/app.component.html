@@ -16,7 +16,7 @@
 </div>
 
 <div class="courses" *ngIf="courses$ | async as courses">
-  @for(course of courses; track trackCourse; 
+  @for(course of courses | filterByCategory: 'BEGINNER'; track trackCourse; 
     let count = $count;
     let last = $last;
     let odd = $odd;

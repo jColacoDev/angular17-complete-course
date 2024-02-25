@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CourseCardComponent } from './course-card/course-card.component';
 import { CoursesService } from './courses.service';
-
+import { FilterByCategoryPipe } from './filter-by-category.pipe';
 
 
 @NgModule({
@@ -10,10 +10,12 @@ import { CoursesService } from './courses.service';
     CommonModule
   ],
   declarations: [
-    CourseCardComponent
+    CourseCardComponent,
+    FilterByCategoryPipe
   ],
   exports: [
-    CourseCardComponent
+    CourseCardComponent,
+    FilterByCategoryPipe
   ],
   providers: [
     CoursesService
