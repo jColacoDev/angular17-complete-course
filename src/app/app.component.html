@@ -22,6 +22,7 @@
   <div>{{rate | percent}}</div>
 </div>
 
+@defer {
 <div class="courses" *ngIf="courses$ | async as courses">
   @for(course of courses; track trackCourse; 
     let count = $count;
@@ -86,5 +87,10 @@
   }
   @empty{<h1>No courses found</h1>}
 </div>
-
-
+}
+@placeholder(minimum 1s){
+  <h2>This is the placeholder</h2>
+}
+@loading(minimum 4s; after 1s){
+  <h2>Loading indicator</h2>
+}
