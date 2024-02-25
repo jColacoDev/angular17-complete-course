@@ -22,7 +22,18 @@
   <div>{{rate | percent}}</div>
 </div>
 
-@defer {
+<div class="demo-triggers">
+  <!-- <input placeholder="Type to trigger prefetch" #prefetch> -->
+  <!-- <div #prefetch>Prefetch div</div> -->
+  <button #display (click)="onDisplay()">Trigger display</button>
+  <button #prefetch (click)="onPrefetch()">Trigger prefetch</button>
+</div>
+<!-- @defer(on idle; prefetch on immediate ) { -->
+<!-- @defer(on timer(10s); prefetch on timer(5s) ) { -->
+<!-- @defer(on viewport(title); prefetch on idle ) { -->
+<!-- @defer(on interaction(display); prefetch on interaction(prefetch) ) { -->
+<!-- @defer(on interaction(display); prefetch on hover(prefetch) ) { -->
+@defer(when displayTrigger; prefetch when prefetchTrigger) {
 <div class="courses" *ngIf="courses$ | async as courses">
   @for(course of courses; track trackCourse; 
     let count = $count;
@@ -93,4 +104,7 @@
 }
 @loading(minimum 4s; after 1s){
   <h2>Loading indicator</h2>
+}
+@error{
+  <h2>An error occurred.</h2>
 }

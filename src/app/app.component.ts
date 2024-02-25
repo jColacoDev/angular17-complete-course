@@ -43,6 +43,9 @@ export class AppComponent implements AfterViewInit, OnInit, DoCheck {
   loaded = true;
   coursesTotal = 0;
 
+  prefetchTrigger = false;
+  displayTrigger = false;
+
   @ViewChild(CourseCardComponent)
     card: CourseCardComponent;
   @ViewChild('demoRef')
@@ -131,5 +134,12 @@ export class AppComponent implements AfterViewInit, OnInit, DoCheck {
       .subscribe(
         () => console.log("Saved success")
       );
+  }
+
+  onPrefetch(){
+    this.prefetchTrigger = true;
+  }
+  onDisplay(){
+    this.displayTrigger = true;
   }
 }
