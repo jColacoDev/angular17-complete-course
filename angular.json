@@ -80,8 +80,6 @@
                 }
               ],
               "outputPath": "dist/angular-course-fr/",
-              "i18nFile": "src/locale/messages.fr.xlf",
-              "i18nLocale": "fr",
               "i18nMissingTranslation": "ignore"
             }
           }

@@ -17,7 +17,7 @@
     "@angular/common": "^17.0.1",
     "@angular/compiler": "^17.0.1",
     "@angular/core": "^17.0.1",
-    "@angular/elements": "^17.0.1",
+    "@angular/elements": "^17.2.2",
     "@angular/forms": "^17.0.1",
     "@angular/localize": "^17.0.1",
     "@angular/material": "^17.0.0",

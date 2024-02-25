@@ -1,4 +1,4 @@
-import { AfterViewInit, Attribute, ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, ElementRef, Inject, InjectionToken, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Attribute, ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, ElementRef, Inject, InjectionToken, Injector, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import {COURSES} from '../db-data';
 import { Course } from './model/course';
 import { CourseCardComponent } from './courses/course-card/course-card.component';
@@ -7,6 +7,9 @@ import { CoursesService } from './courses/courses.service';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig, CONFIG_TOKEN } from 'src/config';
+import { map } from 'rxjs/operators';
+import { createCustomElement } from '@angular/elements';
+import { CourseTitleComponent } from './course-title/course-title.component';
 
 function coursesServiceProvider(http: HttpClient) : CoursesService {
   return new CoursesService(http);
@@ -38,6 +41,7 @@ export class AppComponent implements AfterViewInit, OnInit, DoCheck {
   price = 9.999545845;
   rate = 0.67;
   loaded = true;
+  coursesTotal = 0;
 
   @ViewChild(CourseCardComponent)
     card: CourseCardComponent;
@@ -60,7 +64,8 @@ export class AppComponent implements AfterViewInit, OnInit, DoCheck {
     private coursesService: CoursesService,
     @Inject(CONFIG_TOKEN) private config: AppConfig,
     @Attribute('type') private type: string, //one time binding input
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private injector: Injector
   ){
     // console.log(this.lastCourse);
   }
@@ -72,7 +77,18 @@ export class AppComponent implements AfterViewInit, OnInit, DoCheck {
   }
 
   ngOnInit(): void {
+    // Angular custom Component for widgets with browser 
+    const htmlElement = createCustomElement(CourseTitleComponent, {injector: this.injector});
+    customElements.define('course-title', htmlElement);
+
+
     this.courses$ = this.coursesService.loadCourses();
+    this.courses$.pipe(
+      map(courses=> courses.length)
+    ).subscribe(length=>{
+      this.coursesTotal = length;
+    })
+
     this.loaded = true;
     // this.coursesService.loadCourses().subscribe(courses=>{
     //   this.courses = courses;
@@ -101,7 +117,7 @@ export class AppComponent implements AfterViewInit, OnInit, DoCheck {
   }
 
   onCoursesEdited(){
-    this.courses.unshift(COURSES[5]);
+    this.courses.unshift(COURSES[0]);
     // console.log(this.courses);
     // console.log(this.cards);
   }
