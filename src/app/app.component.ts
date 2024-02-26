@@ -1,4 +1,4 @@
-import { AfterViewInit, Attribute, ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, ElementRef, Inject, InjectionToken, Injector, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Attribute, ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, EffectRef, ElementRef, Inject, InjectionToken, Injector, OnInit, QueryList, ViewChild, ViewChildren, computed, effect, signal } from '@angular/core';
 import {COURSES} from '../db-data';
 import { Course } from './model/course';
 import { CourseCardComponent } from './courses/course-card/course-card.component';
@@ -10,6 +10,7 @@ import { APP_CONFIG, AppConfig, CONFIG_TOKEN } from 'src/config';
 import { map } from 'rxjs/operators';
 import { createCustomElement } from '@angular/elements';
 import { CourseTitleComponent } from './course-title/course-title.component';
+import { CounterServiceService } from './services/counter-service.service';
 
 function coursesServiceProvider(http: HttpClient) : CoursesService {
   return new CoursesService(http);
@@ -43,6 +44,15 @@ export class AppComponent implements AfterViewInit, OnInit, DoCheck {
   loaded = true;
   coursesTotal = 0;
 
+  effectRef: EffectRef;
+
+  counter = signal(0);
+  derivedCounter = computed(()=> {
+    // const counter = this.counter();
+    const counter = this.counterService.counter();
+    return counter * 10;
+  })
+
   prefetchTrigger = false;
   displayTrigger = false;
 
@@ -63,6 +73,7 @@ export class AppComponent implements AfterViewInit, OnInit, DoCheck {
     highlighted: HighlightedDirective;
 
   constructor(
+    public counterService: CounterServiceService,
     // @Inject(COURSES_SERVICE) private coursesService: CoursesService
     private coursesService: CoursesService,
     @Inject(CONFIG_TOKEN) private config: AppConfig,
@@ -70,6 +81,15 @@ export class AppComponent implements AfterViewInit, OnInit, DoCheck {
     private cd: ChangeDetectorRef,
     private injector: Injector
   ){
+    this.effectRef = effect((onCleanup)=>{
+      onCleanup(()=>{
+        console.log("cleanup occured!")
+      });
+      const counterValue = this.counter();
+      const derivedCounterValue = this.derivedCounter();
+
+      console.log(`counter: ${counterValue}, derivedCounter: ${derivedCounterValue}`)
+    },{manualCleanup: true});
     // console.log(this.lastCourse);
   }
   ngDoCheck(): void { 
@@ -142,4 +162,14 @@ export class AppComponent implements AfterViewInit, OnInit, DoCheck {
   onDisplay(){
     this.displayTrigger = true;
   }
+
+  increment(){
+    // this.counter.set(this.counter() + 1);
+    // this.counter.update(val=> val + 1);
+    this.counterService.increment();
+  }
+  onCleanup(){
+    this.effectRef.destroy();
+  }
 }
+
